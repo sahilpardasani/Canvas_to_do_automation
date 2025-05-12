@@ -33,3 +33,4 @@ A Python automation tool that sends your **daily Canvas To-Do list** directly to
 git clone https://github.com/sahilpardasani/canvas-whatsapp-reminder.git
 cd canvas-whatsapp-reminder
 
+pip install -r requirements.txt
