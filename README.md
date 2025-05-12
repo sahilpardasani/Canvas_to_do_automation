@@ -42,7 +42,8 @@ I allow callmebot to send me messages
 Schedule with Cron (macOS/Linux)
 To run the reminder every day at 7 AM: 
 crontab -e
-# Replace the paths below with your own virtual environment and script paths:
+
+ Replace the paths below with your own virtual environment and script paths:
 0 7 * 5-12 * /path/to/venv/bin/python /path/to/project/whatsappreminder.py
 
 
