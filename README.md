@@ -13,7 +13,6 @@ A Python automation tool that sends your **daily Canvas To-Do list** directly to
 - 🛠️ Fully automated via `cron` (macOS/Linux)
 - 🔐 Secure configuration via `.env` file
 - 🐳 Dockerized Deployment: Containerized using Docker for consistent and hassle-free deployment across different environments.
-- 🛠️ Cron Integration: Scheduled execution using cron (macOS/Linux) for full automation.
 
 ---
 
