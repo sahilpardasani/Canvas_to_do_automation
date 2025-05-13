@@ -26,9 +26,7 @@ canvas = Canvas(API_URL, API_KEY)
 # === Determine your timezone ===
 try:
     user = canvas.get_current_user()
-    # Try official Canvas field
     tz_name = getattr(user, 'time_zone', None)
-    # Fallback to internal JSON attributes if present
     if not tz_name and hasattr(user, '_attributes'):
         tz_name = user._attributes.get('time_zone')
     if tz_name:
@@ -37,7 +35,6 @@ try:
         raise AttributeError
     print(f"🕒 Using Canvas timezone: {tz_name}")
 except Exception:
-    # Last fallback: your system timezone
     LOCAL_TZ = get_localzone()
     print(f"🕒 Falling back to system timezone: {LOCAL_TZ}")
 
@@ -67,9 +64,10 @@ if not todo:
 else:
     msg = "📝 *Your Canvas To-Do List:*\n"
     for item in todo:
-        name = item['assignment']['name']
-        course = item['context_name']
-        due_utc = item['assignment'].get('due_at')
+        assignment = item.assignment  # assignment is a dict
+        name = assignment.get("name", "Unnamed Task") if assignment else "Unnamed Task"
+        course = item.context_name or "Unknown Course"
+        due_utc = assignment.get("due_at") if assignment else None
         if due_utc:
             dt = datetime.fromisoformat(due_utc.replace('Z', '+00:00'))
             local = dt.astimezone(LOCAL_TZ)
@@ -82,13 +80,14 @@ else:
 # === 1-hour-before reminders ===
 now_utc = datetime.now(timezone.utc)
 for item in todo:
-    due_utc = item['assignment'].get('due_at')
+    assignment = item.assignment  # still a dict
+    due_utc = assignment.get("due_at") if assignment else None
     if due_utc:
         dt = datetime.fromisoformat(due_utc.replace('Z', '+00:00'))
         diff = dt - now_utc
         if timedelta(minutes=59) <= diff <= timedelta(minutes=61):
-            name = item['assignment']['name']
-            course = item['context_name']
+            name = assignment.get("name", "Unnamed Task") if assignment else "Unnamed Task"
+            course = item.context_name or "Unknown Course"
             local = dt.astimezone(LOCAL_TZ)
             remind_at = local.strftime("%Y-%m-%d %I:%M %p %Z")
             reminder = f"⏰ *Reminder:* '{name}' from {course} is due in 1 hour at {remind_at}."
