@@ -47,3 +47,4 @@ Or simply just create the .environment file and make sure it's in the same folde
 ### Run the Docker Container
 docker run --rm canvas-reminder-bot
 
+💡 Tip: Use launchd to automate this task for you every day on macOS — it’s more reliable than cron and works seamlessly with your environment.
